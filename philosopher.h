@@ -7,22 +7,22 @@
 
 typedef struct s_philo
 {
-	pthread_t	th;
-	int	philo_num;
-	int	time_to_eat_num;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
 
-} t_philo;
+	struct s_data	*data;
+}	t_philo;
 
-typedef struct s_table
+typedef struct s_data
 {
+	int				number_of_philosophers;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				number_of_times_each_philosopher_must_eat;
+}	t_data;
 
-} t_table;
 
 
-
-int checkOnly_num(char **av);
 int	my_atoi(char *str);
+void initial_data(t_data *data,int ac,char **av);
+
 #endif
