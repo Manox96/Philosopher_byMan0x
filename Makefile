@@ -1,6 +1,7 @@
 SRCS = 	philosopher.c \
 			utils_philo.c \
-			initial_data.c \
+			parsing.c \
+			utils_philosTwo.c \
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -pthread

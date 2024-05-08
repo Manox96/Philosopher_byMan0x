@@ -8,46 +8,47 @@ int	ft_isdigit(int c)
 	return (0);
 }
 
-void print_err(char *str)
-{
-	printf("%s",str);
-	exit(0);
-}
-
-
-char *parsing_inputs(char *str)
+int my_strlen(char *str)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			print_err("should be only number");
 		i++;
-	}
-	i = 0;
-	while (str[i] >= 9 && (str[i] <= 13 || str[i] == 32))
-		i++;
-	if (str[i] == '+')
-		i++;
-	else if (str[i] == '-')
-		print_err("shoul be posotive number");
-	return str;
+	return (i);
 }
+
+void	print_err(char *str)
+{
+	write(2, "Error\n", 6);
+	write(2, str, my_strlen(str));
+	exit(1);
+}
+
 
 int	my_atoi(char *str)
 {
-	int	i;
-	int	r;
+	int			i;
+	long		s;
+	long		r;
 
-	i = 0;
 	r = 0;
-	str = parsing_inputs(str);
+	s = 1;
+	i = 0;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			s = s * -1;
+		i++;
+	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		r = r * 10 + str[i] - '0';
+		if ((r * s) > INT_MAX || (r * s) < INT_MIN)
+			print_err("the number should be MIN_INT < numer < MAX_INT");
 		i++;
 	}
-	return (r);
+	return (s * r);
 }
