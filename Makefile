@@ -27,4 +27,6 @@ fclean: clean
 re: fclean all
 	$(RM) $(OBJS) && clear
 
+go :
+	make && make clean && clear
 .PHONY: clean
