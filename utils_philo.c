@@ -75,6 +75,27 @@ void	handle_mutex(t_type type, pthread_mutex_t *mtx)
 	else
 		print_err("Error type given");
 }
+void handle_thread_err(int status, t_type type)
+{
+	if (status == 0)
+		return;
+	else if (EINVAL == status && (type == LOCK || type == UNLOCK || type == DESTROY))
+		print_err("Mutex Err");
+	else if (EDEADLK == status || EPERM == status || ENOMEM == status || EBUSY == status)
+		print_err("Mutex Err");
+}
+
+void	handle_thread(pthread_t *thread, void *(*foo)(void *), void *data, t_type type)
+{
+	if (type == CREATE)
+		handle_thread_err(pthread_create(thread,NULL,foo,data),type);
+	else if (type == JOIN)
+		handle_thread_err(pthread_join(*thread,NULL),type);
+	else if (type == DETACH)
+		handle_thread_err(pthread_detach(*thread),type);
+	else
+		print_err("Error type given");
+}
 
 void	*ft_malloc(size_t size)
 {

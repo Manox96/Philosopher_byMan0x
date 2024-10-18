@@ -44,6 +44,8 @@ int	valid_num(int ac, char **av)
 
 void initial_inputs(t_data *data,int ac,char **av)
 {
+	int	i;
+
     if (check_only_num(av) && valid_num(ac, av))
     {
         data->nbrs_philo = my_atoi(av[1]);
@@ -56,7 +58,19 @@ void initial_inputs(t_data *data,int ac,char **av)
             data->must_eat = -1;
     } else
 		print_err("should be valid num");
-	
+	i = -1;
+	data->end_sum = 0;
+	data->all_ready = 0;
+	handle_mutex(INIT, &data->dt_mutex);
+	data->philo = ft_malloc(sizeof(t_philo) * data->nbrs_philo); 
+	data->fork = ft_malloc(sizeof(t_fork) * data->nbrs_philo); 
+	while (++i < data->nbrs_philo)
+	{
+		handle_mutex(INIT,&data->fork[i].fork);
+		data->fork->fork_id = i;
+	}
+	philo_init(data);
+
 }
 
 void philo_init(t_data *data)
@@ -68,7 +82,7 @@ void philo_init(t_data *data)
 	while (++i < data->nbrs_philo)
 	{
 		philo = data->philo + i;
-		philo->id_philo = i;
+		philo->id_philo = i + 1;
 		philo->is_fulll = 0;
 		philo->meals_c = 0;
 		philo->data = data;
@@ -80,21 +94,4 @@ void philo_init(t_data *data)
 			philo->right_fork = &data->fork[(i + 1) % data->nbrs_philo]; 
 		}
 	}
-}
-
-void intial_data(t_data *data)
-{
-	int	i;
-
-	i = -1;
-	data->end_sum = 0;
-	data->philo = ft_malloc(sizeof(t_philo) * data->nbrs_philo); 
-	data->fork = ft_malloc(sizeof(t_fork) * data->nbrs_philo); 
-	while (++i < data->nbrs_philo)
-	{
-		handle_mutex(INIT,&data->fork[i].fork);
-		data->fork->fork_id = i;
-	}
-	philo_init(data);
-    
 }

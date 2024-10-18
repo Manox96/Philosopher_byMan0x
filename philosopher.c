@@ -7,9 +7,7 @@ int main(int ac, char **av)
 	if (ac != 5 && ac != 6)
 		print_err("should be 5 or 4 args");
 	initial_inputs(&data, ac, av);
-	intial_data(&data);
-
+	start_sumilation(&data);
 	puts("ok");
-
 
 }
