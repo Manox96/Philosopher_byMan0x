@@ -1,30 +1,29 @@
-SRCS = 	philosopher.c \
-			utils_philo.c \
-			parsing.c \
-			utils_philosTwo.c \
 
-CC = cc
-CFLAGS = -Wall -Werror -Wextra -pthread
-RM = rm -rf
-OBJS = $(SRCS:.c=.o)
+
 NAME = philo
-H_MOND = philo.h
+CC = cc
+CFLAGS = -Wall -Wextra -Werror 
+RM = rm -f
 
-%.o: %.c $(H_MOND)
-	$(CC) $(CFLAGS) -c $< -o $@
+SRCS = main.c ft_utils.c  ft_routing.c ft_checker.c ft_thread_util.c \
+
+
+OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+		$(CC) $(OBJS) -o $(NAME)
+
+philo/%.o : philo/%.c philo/philo.h
+		$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS)
+		$(RM) $(OBJS)
 
 fclean: clean
-	$(RM) $(NAME)
+		$(RM) $(NAME)
 
 re: fclean all
-	$(RM) $(OBJS) && clear
 
-.PHONY: clean
+.PHONY: clean fclean
